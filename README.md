@@ -11,3 +11,7 @@
 - `PORT=3333 npm start`
 
 ## setting `setting.js`
+
+## deploy via [pm2](https://pm2.keymetrics.io/)
+- `npm i -g pm2`
+- `pm2 start -- run start`
