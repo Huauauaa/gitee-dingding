@@ -33,10 +33,10 @@ function transform(body) {
     case 'push_hooks':
       what = commits
         .map(
-          (item) =>
-            `[${item.committer.name}: ${item.message}](${item.url}) [${repository.full_name}](${repository.html_url})`,
+          (item) => `- [${item.committer.name}: ${item.message}](${item.url})`,
         )
         .join('\n');
+      what += `\n to [${repository.full_name}](${repository.html_url})`;
       break;
     case 'issue_hooks':
       what = `[${issue.number} ${issue.title}](${issue.html_url}) \n ${
@@ -63,9 +63,13 @@ function transform(body) {
     isAtAll: allLabel.some((item) => what.includes(item)),
   };
   result.markdown = {
-    text: `[${sender.name}](${sender.url}): ${action} ${transformedWhat} `,
+    text: `[${sender.name}](${sender.url}): ${hook_name.replace(
+      '_hooks',
+      '',
+    )}\n ${transformedWhat} `,
     title: `${hook_name}`,
   };
+  console.log(action);
   return result;
 }
 
@@ -73,7 +77,7 @@ router.post('/', (req, res) => {
   const body = transform(req.body);
   const options = {
     headers: { Connection: 'close' },
-    url: dingURL,
+    url: `${dingURL}?access_token=${accessToken}`,
     method: 'POST',
     json: true,
     body,
