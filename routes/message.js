@@ -33,10 +33,11 @@ function transform(body) {
     case 'push_hooks':
       what = commits
         .map(
-          (item) => `- [${item.committer.name}: ${item.message}](${item.url})`,
+          (item) =>
+            `> - [${item.committer.name}: ${item.message}](${item.url})`,
         )
         .join('\n');
-      what += `\n to [${repository.full_name}](${repository.html_url})`;
+      what += `\n\n to [${repository.full_name}](${repository.html_url})`;
       break;
     case 'issue_hooks':
       what = `[${issue.number} ${issue.title}](${issue.html_url}) \n ${
@@ -74,7 +75,13 @@ function transform(body) {
 }
 
 router.post('/', (req, res) => {
-  const body = transform(req.body);
+  let body;
+  if (req.body.msgtype === 'markdown') {
+    body = req.body;
+  } else {
+    body = transform(req.body);
+  }
+
   const options = {
     headers: { Connection: 'close' },
     url: `${dingURL}?access_token=${accessToken}`,
