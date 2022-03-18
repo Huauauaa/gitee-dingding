@@ -1,14 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const request = require('request');
-const { roster, allLabel, dingURL, accessToken } = require('../setting');
+const { roster, allLabel, url, key } = require('../setting');
 
 function transform(body) {
   const result = {
     msgtype: 'markdown',
     password: '',
     sign: '',
-    access_token: accessToken,
+    key,
   };
 
   const {
@@ -84,7 +84,7 @@ router.post('/', (req, res) => {
 
   const options = {
     headers: { Connection: 'close' },
-    url: `${dingURL}?access_token=${accessToken}`,
+    url: `${url}?key=${key}`,
     method: 'POST',
     json: true,
     body,

@@ -1,9 +1,8 @@
 const config = {
   roster: [{ gitee: 'huauauaa', phone: '15311111111' }],
   allLabel: ['@all', '@here'],
-  dingURL: 'https://oapi.dingtalk.com/robot/send',
-  accessToken:
-    'b536a4269d4ed71341f5529435a9a9b0ff56047529d8a7e2b502e1a003843152',
+  url: 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send',
+  key: '8aaa46e0-5ec7-4c19-a04e-0bf5670abc0e',
 };
 
 module.exports = config;
